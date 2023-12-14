@@ -1,0 +1,4 @@
+Data/Hora: 2023-12-14T08:25:14.069027200, ID Cliente: 1, Filme: A FREIRA 2, Valor da Compra: R$20.0
+Data/Hora: 2023-12-14T08:26:16.606046100, ID Cliente: 1, Filme: A CHAMADA, Valor da Compra: R$25.0
+Data/Hora: 2023-12-14T08:29:30.222563300, ID Cliente: 1, Filme: BEZOURO AZUL, Valor da Compra: R$20.0
+Data/Hora: 2023-12-14T08:38:17.122103700, ID Cliente: 1, Filme: A FREIRA 2, Valor da Compra: R$20.0

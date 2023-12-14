@@ -55,7 +55,7 @@ class Cliente {
     //sobrescreva
     @Override
     public String toString() {
-        return ", Nome:" + nome + ", CPF: " + cpf + ", Email: " + email + ", Telefone: " + telefone;
+        return ", NOME: " + nome + ", CPF: " + cpf + ", EMAIL: " + email + ", TELEFONE: " + telefone;
     }
 
     public Cliente(){}

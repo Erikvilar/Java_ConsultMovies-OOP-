@@ -2,49 +2,71 @@
 package Classe;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
+
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
+
 
 public class Programa {
 
     public static void main(String[] args) {
-        JOptionPane.showMessageDialog(null, "Bem vindo ao CineMovie", "Entre com seus dados para começarmos!", 1);
+        
+        ImageIcon erro = new ImageIcon("img/erro.png");
+        ImageIcon confirme = new ImageIcon("img/confirme.png");
+        ImageIcon aviso = new ImageIcon("img/aviso.png");
+        ImageIcon Usuario = new ImageIcon("img/usuario.png");
+        ImageIcon cinema = new ImageIcon("img/cinema.png");
+
 
         String dados[] = new String[4];
         Ingresso ingresso = new Ingresso();
         ArrayList<Cliente> clienteLista = new ArrayList<Cliente>();
-        HashMap<Integer, ArrayList<Cliente>> mapeamento = new HashMap<>();
+      JOptionPane.showMessageDialog(null, "Bem vindo ao CineMovie", "Entre com seus dados para começarmos!", JOptionPane.PLAIN_MESSAGE,cinema);
 
         try {
             int opcao;
             do {
                 String menu = "Menu:\n" +
                         "1. Cadastrar-se\n" +
-                        "2. Escolher filme\n\n" +
-                        "3. Conferir o horario da sua seção\n\n"+
-                        "4. Deletar cadastro"+
-                        "Editar cadastro"+
-                        "Diga nos sua opnião"+
+                        "2. Escolher filme\n" +
+                        "3. Conferir o horario da sua seção\n"+
+                        "4. Deletar cadastro\n"+
+                        "5.Editar cadastro\n"+
+                        "6.Diga nos sua opnião\n"+
                         "";
                 opcao = Integer.parseInt(JOptionPane.showInputDialog(menu));
                 switch (opcao) {
                     case 1:
-                        JOptionPane.showMessageDialog(null, "Cadastrar-se");
-                        dados[0] = JOptionPane.showInputDialog("Nome completo:");
-                        dados[1] = JOptionPane.showInputDialog("CPF:");
-                        dados[2] = JOptionPane.showInputDialog("Email completo:");
-                        dados[3] = JOptionPane.showInputDialog("Informe o telefone:");
-                        Cliente cliente = new Cliente(dados[0], dados[1], dados[2], dados[3]);
-                        clienteLista.add(cliente);
-                        int cont = lerValorContador();
-                        for (Cliente c : clienteLista) {
-                            mapeamento.put(cont, clienteLista);
-                            writeInArchive(cont, clienteLista, "ClientesCadastrados.txt");
-                            cont++;
+                    JOptionPane.showMessageDialog(null, "Cadastrar-se","Bem vindo ao cadastro",JOptionPane.PLAIN_MESSAGE,Usuario);
+                    dados[0] = JOptionPane.showInputDialog("Nome completo:");
+                    dados[1] = JOptionPane.showInputDialog("CPF:");
+                    dados[2] = JOptionPane.showInputDialog("Email completo:");
+                    dados[3] = JOptionPane.showInputDialog("Informe o telefone:");
+                    
+                    for (int i = 0; i < dados.length; i++) {
+                        while (dados[i] == null || dados[i].isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Campo não pode estar vazio. Por favor, digite novamente:","Erro",JOptionPane.ERROR_MESSAGE,erro);
+                    dados[0] = JOptionPane.showInputDialog("Nome completo:");
+                    dados[1] = JOptionPane.showInputDialog("CPF:");
+                    dados[2] = JOptionPane.showInputDialog("Email completo:");
+                    dados[3] = JOptionPane.showInputDialog("Informe o telefone:");
                         }
+                    }
+                        
+                    
+                    Cliente cliente = new Cliente(dados[0], dados[1], dados[2], dados[3]);
+                    clienteLista.add(cliente);
+                    int cont = lerValorContador();
+                        
+                    writeInArchive(cont, clienteLista, "ClientesCadastrados.txt");
+                    cont++;
                         salvarValorContador(cont);
-                        JOptionPane.showMessageDialog(null, "Cadastro realizado!");
+                        JOptionPane.showMessageDialog(null, "Cadastro realizado!","CADASTRO REALIZADO",JOptionPane.PLAIN_MESSAGE,confirme);
+                        
                         break;
                         case 2:
 
@@ -59,13 +81,13 @@ public class Programa {
                         do {
                             keyMovie = ingresso.getKeyMovie(op);
                             if (keyMovie == -1) {
-                                JOptionPane.showMessageDialog(null, "Filme não encontrado!", "", 3);
+                                JOptionPane.showMessageDialog(null, "Filme não encontrado!", "", JOptionPane.PLAIN_MESSAGE, aviso);
 
                                 op = JOptionPane.showInputDialog("Lista de todos filmes catalogados:\n" + lista)
                                         .toUpperCase();
                                 System.out.println("Filme digitado " + op);
                             } else {
-                                JOptionPane.showMessageDialog(null, "Filme " + op + " adicionado a sua lista!");
+                                JOptionPane.showMessageDialog(null, "Filme " + op + " adicionado a sua lista!","FILME ADICIONADO",JOptionPane.ERROR_MESSAGE,confirme);
                                 condição = false;
                             }
                         } while (condição == true);
@@ -79,9 +101,10 @@ public class Programa {
                                 if (preço == pagamento || preço < pagamento) {
                                     int id = lerValorContador();
                                     ingresso.registrarVenda(id, pagamento, op);
-                                    JOptionPane.showMessageDialog(null, "Compra realizada com sucesso");
+                                   JOptionPane.showMessageDialog(null,"Compra realizada com sucesso","Pagamento realizado!",JOptionPane.ERROR_MESSAGE,confirme);
+                                    
                                 } else {
-                                    JOptionPane.showMessageDialog(null, "Saldo insuficiente para compra");
+                                     JOptionPane.showMessageDialog(null, "Saldo insuficiente para compra","SALDO INSUFICIENTE",JOptionPane.ERROR_MESSAGE,erro);
 
                                 }
 
@@ -94,9 +117,9 @@ public class Programa {
                                 if (preço == pagamento || preço < pagamento) {
                                     int id = lerValorContador();
                                     ingresso.registrarVenda(id, pagamento, op);
-                                    JOptionPane.showMessageDialog(null, "Compra realizada com sucesso");
+                                   JOptionPane.showMessageDialog(null,"Compra realizada com sucesso","Pagamento realizado!",JOptionPane.ERROR_MESSAGE,confirme);
                                 } else {
-                                    JOptionPane.showMessageDialog(null, "Saldo insuficiente para compra");
+                                  JOptionPane.showMessageDialog(null, "Saldo insuficiente para compra","SALDO INSUFICIENTE",JOptionPane.ERROR_MESSAGE,erro);
 
                                 }
                                 break;
@@ -108,9 +131,9 @@ public class Programa {
                                 if (preço == pagamento || preço < pagamento) {
                                     int id = lerValorContador();
                                     ingresso.registrarVenda(id, pagamento, op);
-                                    JOptionPane.showMessageDialog(null, "Compra realizada com sucesso");
+                                 JOptionPane.showMessageDialog(null,"Compra realizada com sucesso","Pagamento realizado!",JOptionPane.ERROR_MESSAGE,confirme);
                                 } else {
-                                    JOptionPane.showMessageDialog(null, "Saldo insuficiente para compra");
+                                    JOptionPane.showMessageDialog(null, "Saldo insuficiente para compra","SALDO INSUFICIENTE",JOptionPane.ERROR_MESSAGE,erro);
 
                                 }
                                 break;
@@ -122,9 +145,9 @@ public class Programa {
                                 if (preço == pagamento || preço < pagamento) {
                                     int id = lerValorContador();
                                     ingresso.registrarVenda(id, pagamento, op);
-                                    JOptionPane.showMessageDialog(null, "Compra realizada com sucesso");
+                                   JOptionPane.showMessageDialog(null,"Compra realizada com sucesso","Pagamento realizado!",JOptionPane.ERROR_MESSAGE,confirme);
                                 } else {
-                                    JOptionPane.showMessageDialog(null, "Saldo insuficiente para compra");
+                                    JOptionPane.showMessageDialog(null, "Saldo insuficiente para compra","SALDO INSUFICIENTE",JOptionPane.ERROR_MESSAGE,erro);
 
                                 }
                                 break;
@@ -137,9 +160,9 @@ public class Programa {
                                 if (preço == pagamento || preço < pagamento) {
                                     int id = lerValorContador();
                                     ingresso.registrarVenda(id, pagamento, op);
-                                    JOptionPane.showMessageDialog(null, "Compra realizada com sucesso");
+                                      JOptionPane.showMessageDialog(null,"Compra realizada com sucesso","Pagamento realizado!",JOptionPane.ERROR_MESSAGE,confirme);
                                 } else {
-                                    JOptionPane.showMessageDialog(null, "Saldo insuficiente para compra");
+                                   JOptionPane.showMessageDialog(null, "Saldo insuficiente para compra","SALDO INSUFICIENTE",JOptionPane.ERROR_MESSAGE,erro);
 
                                 }
                                 break;
@@ -150,9 +173,9 @@ public class Programa {
                                 if (preço == pagamento || preço < pagamento) {
                                     int id = lerValorContador();
                                     ingresso.registrarVenda(id, pagamento, op);
-                                    JOptionPane.showMessageDialog(null, "Compra realizada com sucesso");
+                                     JOptionPane.showMessageDialog(null,"Compra realizada com sucesso","Pagamento realizado!",JOptionPane.ERROR_MESSAGE,confirme);
                                 } else {
-                                    JOptionPane.showMessageDialog(null, "Saldo insuficiente para compra");
+                                 JOptionPane.showMessageDialog(null, "Saldo insuficiente para compra","SALDO INSUFICIENTE",JOptionPane.ERROR_MESSAGE,erro);
 
                                 }
                                 break;
@@ -168,34 +191,54 @@ public class Programa {
                         ingresso.adicionarHorariosSalas("MISSÃO IMPOSSIVEL PROTOCOLO FANTASMA", "20-12-2020 : 19:50 - Legendado - Sala DMAX");
                         ingresso.adicionarHorariosSalas("A FREIRA 2", "20-12-2020 : 21:30 - Dublado - Sala Sala 5");
                          JOptionPane.showMessageDialog(null, "Verifique sua seção! Não perca!");
-                        String filmeEscolhido;
-                        do {
-                           
-                            filmeEscolhido = JOptionPane.showInputDialog("Filme que irá assistir:\nPara voltar ao menu digite Sair ou S");
-                                String horario = ingresso.getHorariosSalas(filmeEscolhido);
-                                JOptionPane.showMessageDialog(null, horario);
+                        String filmeEscolhido = JOptionPane.showInputDialog("Filme que irá assistir:\nPara voltar ao menu digite Sair ou S").toUpperCase();
+                        String horario = ingresso.getHorariosSalas(filmeEscolhido);
+                        while(filmeEscolhido != null){
+                                
                               System.out.println(filmeEscolhido);
-                        }while (!filmeEscolhido.equals("SAIR") && !filmeEscolhido.equals("S")) ;
-                        
+                              if(horario == null){
+                                JOptionPane.showMessageDialog(null, "Filme escolhido não está em seção hoje");
+                              }else{
+                                JOptionPane.showMessageDialog(null, horario);
+                              }
+                        }
+                            JOptionPane.showMessageDialog(null, "Use mascara e não se esqueça de pegar seu oculos 3D bom filme!");
                             break;
                         case 4:
                         JOptionPane.showMessageDialog(null, "Que pena vai nos deixar :(\n Voce sempre sera bem vindo! )");
                         String nome = JOptionPane.showInputDialog( "Informe seu primeiro nome");
-                      
+                        System.out.println("usuario irá deletar seu nome do banco de dados");
                         deletarUsuarioPorNome(nome, "ClientesCadastrados.txt");
 
                         break;
+
                         case 5:
+                         JOptionPane.showMessageDialog(null, "Claro vamos editar seu cadastro!");
+                         String Campo= JOptionPane.showInputDialog("INFORME O CAMPO QUE DESEJA EDITAR\nNome:\nTelefone:\nEmail:\nCPF:").toUpperCase();
+                         String ValorAntigo = JOptionPane.showInputDialog("Valor antigo:");
+                         int option;
+                         do{
+                            option =JOptionPane.showConfirmDialog(null, "Tem certeza que deseja alterar o "+Campo+"?","Confirme a alteração",JOptionPane.YES_NO_OPTION); 
+                         }while (option != JOptionPane.YES_NO_OPTION); 
+                            
+                        
+                         
+                         String novoNome= JOptionPane.showInputDialog("Novo nome");
+                         
+                         editarInformacaoCliente(ValorAntigo, novoNome, Campo, "ClientesCadastrados.txt");
                             break;
                         case 6:
+                            String categoria = JOptionPane.showInputDialog("Diga-nos o que gostaria de avaliar?");
+                            int nota = Integer.parseInt(JOptionPane.showInputDialog("Nota:"));
+                            String avaliacao = JOptionPane.showInputDialog("Conte-nos sua opnião");
+                            RegistrarAvaliacao(categoria, nota,avaliacao, "AvaliaçãoClientes.txt");
                             break;
-                        case 7:
-                            break;
+                       
 
 
                        
                     default:
-
+                         JOptionPane.showMessageDialog(null, "Opção invalida!","Erro",JOptionPane.ERROR_MESSAGE,erro);
                 }
 
             }while(opcao!=0);
@@ -213,7 +256,8 @@ public class Programa {
                 id = lerValorContador();
                 String linha = "ID " + id + cliente.toString();
                 escreverLinha(writer, linha);
-
+                id++;
+                salvarValorContador(id);
             }
         } catch (IOException e) {
             System.err.println("Erro ao gravar no arquivo: " + e.getMessage());
@@ -239,6 +283,7 @@ public class Programa {
         }
         return valor;
     }
+    
 
     public static void salvarValorContador(int valor) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("contador.txt"))) {
@@ -251,6 +296,7 @@ public class Programa {
     }
 
     public static void deletarUsuarioPorNome(String nome, String nomeArquivo) {
+        ImageIcon aviso = new ImageIcon("img/aviso.png");
         try (BufferedReader reader = new BufferedReader(new FileReader(nomeArquivo));
              BufferedWriter writer = new BufferedWriter(new FileWriter("temp.txt"))) {
     
@@ -268,7 +314,7 @@ public class Programa {
             }
     
             if (!deletou) {
-                System.out.println("Usuário não encontrado.");
+                JOptionPane.showMessageDialog(null, "Usuario não encontrado","OPS!",JOptionPane.ERROR_MESSAGE,aviso);
                 return; 
             }
     
@@ -278,12 +324,70 @@ public class Programa {
         }
     
       
-        File original = new File(nomeArquivo);
-        File tempFile = new File("temp.txt");
-        if (tempFile.renameTo(original)) {
-            System.out.println("Usuário removido com sucesso!");
-        } else {
-            System.out.println("Falha ao remover o usuário.");
+           try {
+        Files.move(Paths.get("temp.txt"), Paths.get(nomeArquivo), StandardCopyOption.REPLACE_EXISTING);
+        System.out.println("Usuário removido com sucesso!");
+    } catch (IOException e) {
+        System.out.println("Falha ao substituir o arquivo original: " + e.getMessage());
+    }
+    }
+
+
+    public static void RegistrarAvaliacao(String categoria,int nota,String avaliacao,  String nomeArquivo) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo, true))) {
+         
+              int id = lerValorContador();
+                String linha = "\nUsuario - "+id+" \nAvaliou com nota de ("+nota+") para a : "+ categoria+"\n"+avaliacao;
+                escreverLinha(writer, linha);
+                salvarValorContador(id);
+            
+        } catch (IOException e) {
+            System.err.println("Erro ao gravar no arquivo: " + e.getMessage());
+        }
+    }
+
+
+    public static void editarInformacaoCliente(String valorAntigo, String novoValor, String campo, String nomeArquivo) {
+        ImageIcon aviso = new ImageIcon("img/aviso.png");
+         ImageIcon confirme = new ImageIcon("img/confirme.png");
+        try (BufferedReader reader = new BufferedReader(new FileReader(nomeArquivo));
+             BufferedWriter writer = new BufferedWriter(new FileWriter("temp.txt"))) {
+    
+                String linha;
+                boolean editou = false;
+                while ((linha = reader.readLine()) != null) {
+                    String[] partes = linha.split(", "); 
+        
+                    for (int i = 0; i < partes.length; i++) {
+                        if (partes[i].startsWith(campo + ": ") && partes[i].contains(valorAntigo)) {
+                            editou = true;
+                            partes[i] = campo + ": " + novoValor; 
+                        }
+                    }
+        
+                
+                    String linhaAtualizada = String.join(", ", partes);
+        
+             
+                    writer.write(linhaAtualizada);
+                    writer.newLine();
+                }
+        
+                if (!editou) {
+                    JOptionPane.showMessageDialog(null, "Usuario não encontrado","OPS!",JOptionPane.ERROR_MESSAGE,aviso);
+                    return;
+                }
+        
+            } catch (IOException e) {
+                System.err.println("Erro ao editar a informação do cliente: " + e.getMessage());
+                return;
+            }
+     
+        try {
+            Files.move(Paths.get("temp.txt"), Paths.get(nomeArquivo), StandardCopyOption.REPLACE_EXISTING);
+          JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!","Sucesso",JOptionPane.ERROR_MESSAGE,confirme);
+        } catch (IOException e) {
+            System.out.println("Falha ao substituir o arquivo original: " + e.getMessage());
         }
     }
 }

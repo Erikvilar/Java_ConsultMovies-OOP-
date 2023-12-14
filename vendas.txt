@@ -1,4 +1,4 @@
-Data/Hora: 2023-12-14T08:25:14.069027200, ID Cliente: 1, Filme: A FREIRA 2, Valor da Compra: R$20.0
-Data/Hora: 2023-12-14T08:26:16.606046100, ID Cliente: 1, Filme: A CHAMADA, Valor da Compra: R$25.0
-Data/Hora: 2023-12-14T08:29:30.222563300, ID Cliente: 1, Filme: BEZOURO AZUL, Valor da Compra: R$20.0
-Data/Hora: 2023-12-14T08:38:17.122103700, ID Cliente: 1, Filme: A FREIRA 2, Valor da Compra: R$20.0
+Data/Hora: 2023-12-14T16:27:17.158682900, ID Cliente: 1, Filme: INTERSTELAR, Valor da Compra: R$30.0
+Data/Hora: 2023-12-14T16:40:31.220906300, ID Cliente: 2, Filme: A FREIRA 2, Valor da Compra: R$20.0
+Data/Hora: 2023-12-14T17:32:31.566287400, ID Cliente: 4, Filme: A FREIRA 2, Valor da Compra: R$20.0
+Data/Hora: 2023-12-14T17:33:19.774366800, ID Cliente: 4, Filme: HOMEM ARANHA ATRAVES DO ARANHA VERSO, Valor da Compra: R$25.0
